@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    ports:
+      - "8000:8000"
+    environment:
+      - T2SQL_LLM_PROVIDER=${T2SQL_LLM_PROVIDER:-gemini}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - T2SQL_LLM_MODEL=${T2SQL_LLM_MODEL:-gemini-2.5-flash}
+      - T2SQL_DB_PATH=/srv/data/warehouse.duckdb
+      - T2SQL_ROW_LIMIT=${T2SQL_ROW_LIMIT:-1000}
+    volumes:
+      - t2sql_data:/srv/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "8501:8501"
+    environment:
+      - T2SQL_API_BASE=http://api:8000
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  t2sql_data:

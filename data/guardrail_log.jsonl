@@ -1,0 +1,4 @@
+{"ts": 1788417249.5363631, "question": "how many categories are there ?", "sql": "SELECT COUNT(*) AS category_count FROM categories;", "passed": true, "violations": []}
+{"ts": 1788420650.852654, "question": "how many categories are there ?", "sql": "SELECT\n  COUNT(DISTINCT product_category_name_english) AS total_categories\nFROM olist_clean_master;", "passed": true, "violations": []}
+{"ts": 1788421268.5841403, "question": "how many units are sold ?", "sql": "SELECT SUM(\"Units Sold\") AS total_units_sold FROM sales_selected_columns;", "passed": true, "violations": []}
+{"ts": 1788425053.725452, "question": "how many units are sold ?", "sql": "SELECT SUM(\"Units Sold\") AS total_units_sold FROM sales_selected_columns;", "passed": true, "violations": []}

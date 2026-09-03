@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.env
+data/*.duckdb
+data/*.jsonl
+eval/eval_results.json
+.streamlit/
+*.egg-info/
